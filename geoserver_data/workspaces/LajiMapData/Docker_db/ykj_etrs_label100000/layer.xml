@@ -1,0 +1,17 @@
+<layer>
+  <name>ykj_etrs_label100000</name>
+  <id>LayerInfoImpl-79afec84:178b0095e72:-1f0e</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-7b1abad3:178abd73e69:583a</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-79afec84:178b0095e72:-1f0f</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-04-08 10:09:40.452 UTC</dateCreated>
+  <dateModified>2021-04-14 19:00:45.890 UTC</dateModified>
+</layer>

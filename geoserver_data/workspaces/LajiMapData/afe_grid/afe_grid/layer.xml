@@ -1,0 +1,17 @@
+<layer>
+  <name>afe_grid</name>
+  <id>LayerInfoImpl-6af514e6:178b182071a:-7b8e</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-6af514e6:178b182071a:-7b7e</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-6af514e6:178b182071a:-7b8f</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-04-08 14:27:52.755 UTC</dateCreated>
+  <dateModified>2021-04-14 19:09:19.627 UTC</dateModified>
+</layer>

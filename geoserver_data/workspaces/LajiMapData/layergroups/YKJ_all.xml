@@ -1,0 +1,30 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl-79afec84:178b0095e72:-475</id>
+  <name>YKJ_all</name>
+  <mode>SINGLE</mode>
+  <title>YKJ all</title>
+  <workspace>
+    <id>WorkspaceInfoImpl-6af514e6:178b182071a:-7b95</id>
+  </workspace>
+  <publishables>
+    <published type="layerGroup">
+      <id>LayerGroupInfoImpl-79afec84:178b0095e72:-1f0d</id>
+    </published>
+    <published type="layerGroup">
+      <id>LayerGroupInfoImpl-79afec84:178b0095e72:-7ffa</id>
+    </published>
+  </publishables>
+  <styles>
+    <style/>
+    <style/>
+  </styles>
+  <bounds>
+    <minx>43547.78932226647</minx>
+    <maxx>764796.7155847414</maxx>
+    <miny>6523158.091198515</miny>
+    <maxy>7795461.187543589</maxy>
+    <crs class="projected">EPSG:3067</crs>
+  </bounds>
+  <dateCreated>2021-04-08 10:21:07.932 UTC</dateCreated>
+  <dateModified>2021-04-15 07:45:41.475 UTC</dateModified>
+</layerGroup>
