@@ -26,7 +26,7 @@ services:
     container_name: "geoserver"
     image: kartoza/geoserver:2.19.0
     volumes:
-      - ./geoserver_data:/opt/geoserver/data_dir
+      - ./geoserver-data:/opt/geoserver/data_dir
     ports:
       - "8080:8080"
     restart: on-failure
