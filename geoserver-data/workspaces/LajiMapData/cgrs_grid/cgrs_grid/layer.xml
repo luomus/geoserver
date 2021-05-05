@@ -1,0 +1,17 @@
+<layer>
+  <name>cgrs_grid</name>
+  <id>LayerInfoImpl--5c39d9f8:178d168f695:-7ffa</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--5c39d9f8:178d168f695:-7ff8</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--5c39d9f8:178d168f695:-7ffb</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-04-14 18:17:47.975 UTC</dateCreated>
+  <dateModified>2021-04-14 19:09:03.232 UTC</dateModified>
+</layer>
