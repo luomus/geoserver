@@ -1,0 +1,17 @@
+<layer>
+  <name>biogeographical_provinces_borders</name>
+  <id>LayerInfoImpl--21bb3541:1787c937631:-7dc9</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--5c39d9f8:178d168f695:-7fcb</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--21bb3541:1787c937631:-7dca</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-03-30 07:20:46.679 UTC</dateCreated>
+  <dateModified>2021-05-17 16:31:29.636 UTC</dateModified>
+</layer>

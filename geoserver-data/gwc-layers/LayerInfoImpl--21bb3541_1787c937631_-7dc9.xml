@@ -2,7 +2,7 @@
   <id>LayerInfoImpl--21bb3541:1787c937631:-7dc9</id>
   <enabled>true</enabled>
   <inMemoryCached>true</inMemoryCached>
-  <name>LajiMapData:biogeographical_regions_outline</name>
+  <name>LajiMapData:biogeographical_provinces_borders</name>
   <mimeFormats>
     <string>image/png</string>
     <string>image/jpeg</string>
@@ -26,7 +26,7 @@
       <key>STYLES</key>
       <defaultValue></defaultValue>
       <availableStyles class="sorted-set"/>
-      <defaultStyle>LajiMapData:biogeo_outline</defaultStyle>
+      <defaultStyle>LajiMapData:biogeographical_regions_outline</defaultStyle>
     </styleParameterFilter>
   </parameterFilters>
   <gutter>0</gutter>

@@ -2,7 +2,7 @@
   <id>LayerInfoImpl--21bb3541:1787c937631:-7ecb</id>
   <enabled>true</enabled>
   <inMemoryCached>true</inMemoryCached>
-  <name>LajiMapData:biogeographical_regions</name>
+  <name>LajiMapData:biogeographical_provinces</name>
   <mimeFormats>
     <string>image/png</string>
     <string>image/jpeg</string>
@@ -42,7 +42,7 @@
       <key>STYLES</key>
       <defaultValue></defaultValue>
       <availableStyles class="sorted-set"/>
-      <defaultStyle>LajiMapData:biogeographic_regions_style</defaultStyle>
+      <defaultStyle>LajiMapData:biogeographical_regions</defaultStyle>
     </styleParameterFilter>
   </parameterFilters>
   <gutter>0</gutter>

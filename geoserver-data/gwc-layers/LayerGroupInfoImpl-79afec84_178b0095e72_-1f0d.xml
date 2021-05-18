@@ -2,7 +2,7 @@
   <id>LayerGroupInfoImpl-79afec84:178b0095e72:-1f0d</id>
   <enabled>true</enabled>
   <inMemoryCached>true</inMemoryCached>
-  <name>LajiMapData:ykj_labels_combined</name>
+  <name>LajiMapData:ykj_etrs_labels</name>
   <mimeFormats>
     <string>image/png</string>
     <string>image/jpeg</string>

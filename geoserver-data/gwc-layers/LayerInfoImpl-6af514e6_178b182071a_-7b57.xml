@@ -2,23 +2,12 @@
   <id>LayerInfoImpl-6af514e6:178b182071a:-7b57</id>
   <enabled>true</enabled>
   <inMemoryCached>true</inMemoryCached>
-  <name>LajiMapData:reg_endangerment_assessment_zones</name>
+  <name>LajiMapData:threatened_species_evaluation_zones</name>
   <mimeFormats>
-    <string>image/png</string>
     <string>image/jpeg</string>
+    <string>image/png</string>
   </mimeFormats>
   <gridSubsets>
-    <gridSubset>
-      <gridSetName>EPSG:4326</gridSetName>
-      <extent>
-        <coords>
-          <double>15.608229240745391</double>
-          <double>59.36205823926484</double>
-          <double>33.107631908170525</double>
-          <double>70.0946836920728</double>
-        </coords>
-      </extent>
-    </gridSubset>
     <gridSubset>
       <gridSetName>EPSG:900913</gridSetName>
       <extent>
@@ -27,6 +16,17 @@
           <double>8259056.492832793</double>
           <double>3685524.725388679</double>
           <double>1.1099603155073252E7</double>
+        </coords>
+      </extent>
+    </gridSubset>
+    <gridSubset>
+      <gridSetName>EPSG:4326</gridSetName>
+      <extent>
+        <coords>
+          <double>15.608229240745391</double>
+          <double>59.36205823926484</double>
+          <double>33.107631908170525</double>
+          <double>70.0946836920728</double>
         </coords>
       </extent>
     </gridSubset>
@@ -42,7 +42,7 @@
       <key>STYLES</key>
       <defaultValue></defaultValue>
       <availableStyles class="sorted-set"/>
-      <defaultStyle>LajiMapData:metsäkasvillisuus_uhanalaisarviointi</defaultStyle>
+      <defaultStyle>LajiMapData:reg_endangerment_assessment_zones</defaultStyle>
     </styleParameterFilter>
   </parameterFilters>
   <gutter>0</gutter>

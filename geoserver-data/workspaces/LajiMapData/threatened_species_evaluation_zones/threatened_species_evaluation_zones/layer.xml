@@ -1,0 +1,17 @@
+<layer>
+  <name>threatened_species_evaluation_zones</name>
+  <id>LayerInfoImpl-6af514e6:178b182071a:-7b57</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-6af514e6:178b182071a:-7b56</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-6af514e6:178b182071a:-7b58</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-04-08 15:04:39.344 UTC</dateCreated>
+  <dateModified>2021-05-17 15:32:56.728 UTC</dateModified>
+</layer>
