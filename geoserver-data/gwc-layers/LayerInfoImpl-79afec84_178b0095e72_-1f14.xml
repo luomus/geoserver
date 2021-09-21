@@ -42,7 +42,7 @@
       <key>STYLES</key>
       <defaultValue></defaultValue>
       <availableStyles class="sorted-set"/>
-      <defaultStyle>LajiMapData:ykj_etrs_label1000</defaultStyle>
+      <defaultStyle>ykj:ykj1000labels</defaultStyle>
     </styleParameterFilter>
   </parameterFilters>
   <gutter>0</gutter>

@@ -1,0 +1,16 @@
+<layer>
+  <name>WildernessAreas</name>
+  <id>LayerInfoImpl-5ae34720:17b811bea00:-7fc1</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-5ae34720:17b811bea00:-7ff7</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-5ae34720:17b811bea00:-7fc2</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-08-26 12:29:03.760 UTC</dateCreated>
+</layer>

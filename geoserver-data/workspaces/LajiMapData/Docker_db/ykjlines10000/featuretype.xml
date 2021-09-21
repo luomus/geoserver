@@ -1,0 +1,44 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--48824c3a:17bddea2a22:-7e54</id>
+  <name>ykjlines10000</name>
+  <nativeName>ykjlines10000</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-6af514e6:178b182071a:-7b94</id>
+  </namespace>
+  <title>ykjlines10000</title>
+  <keywords>
+    <string>ykjlines10000</string>
+    <string>features</string>
+  </keywords>
+  <srs>EPSG:3067</srs>
+  <nativeBoundingBox>
+    <minx>-3970.55395507812</minx>
+    <maxx>803708.5</maxx>
+    <miny>6591228.5</miny>
+    <maxy>7802745.0</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>13.808623896093092</minx>
+    <maxx>35.034637340949466</maxx>
+    <miny>59.159268817651174</miny>
+    <maxy>70.32829953638722</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="cachingEnabled">false</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl--21bb3541:1787c937631:-7ecd</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <simpleConversionEnabled>false</simpleConversionEnabled>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

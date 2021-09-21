@@ -1,0 +1,16 @@
+<layer>
+  <name>PrivateNatureConservationAreas</name>
+  <id>LayerInfoImpl-5ae34720:17b811bea00:-7fe0</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-5ae34720:17b811bea00:-7ff0</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-5ae34720:17b811bea00:-7fe1</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-08-26 12:17:44.97 UTC</dateCreated>
+</layer>

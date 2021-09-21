@@ -1,0 +1,39 @@
+<layerGroup>
+  <id>LayerGroupInfoImpl--48824c3a:17bddea2a22:-7e67</id>
+  <name>plannedProtectedAreas</name>
+  <mode>SINGLE</mode>
+  <title>Planned protected areas</title>
+  <workspace>
+    <id>WorkspaceInfoImpl-ecac743:17b7c312cdb:-7da2</id>
+  </workspace>
+  <publishables>
+    <published type="layer">
+      <id>LayerInfoImpl-5ae34720:17b811bea00:-7ffb</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-5ae34720:17b811bea00:-7fe6</id>
+    </published>
+    <published type="layer">
+      <id>LayerInfoImpl-5ae34720:17b811bea00:-7fc6</id>
+    </published>
+  </publishables>
+  <styles>
+    <style>
+      <id>StyleInfoImpl-5ae34720:17b811bea00:-7ffa</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-5ae34720:17b811bea00:-7ff2</id>
+    </style>
+    <style>
+      <id>StyleInfoImpl-5ae34720:17b811bea00:-7ff3</id>
+    </style>
+  </styles>
+  <bounds>
+    <minx>166276.44570000004</minx>
+    <maxx>732907.7257999999</maxx>
+    <miny>6616098.031400001</miny>
+    <maxy>7768934.508699998</maxy>
+    <crs class="projected">EPSG:3067</crs>
+  </bounds>
+  <dateCreated>2021-09-16 06:30:47.886 UTC</dateCreated>
+</layerGroup>

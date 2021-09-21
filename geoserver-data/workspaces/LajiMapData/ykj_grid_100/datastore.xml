@@ -1,0 +1,23 @@
+<dataStore>
+  <id>DataStoreInfoImpl-ecac743:17b7c312cdb:-7fff</id>
+  <name>ykj_grid_100</name>
+  <type>Shapefile</type>
+  <enabled>true</enabled>
+  <workspace>
+    <id>WorkspaceInfoImpl-6af514e6:178b182071a:-7b95</id>
+  </workspace>
+  <connectionParameters>
+    <entry key="charset">ISO-8859-1</entry>
+    <entry key="filetype">shapefile</entry>
+    <entry key="create spatial index">true</entry>
+    <entry key="memory mapped buffer">false</entry>
+    <entry key="timezone">GMT</entry>
+    <entry key="enable spatial index">true</entry>
+    <entry key="namespace">https://laji.fi/observation/map/LajiMapData</entry>
+    <entry key="cache and reuse memory maps">true</entry>
+    <entry key="url">file:shapefiles/ykj_line_100/ykj_etrs_line100Line.shp</entry>
+    <entry key="fstype">shape</entry>
+  </connectionParameters>
+  <__default>false</__default>
+  <dateCreated>2021-08-25 07:25:26.188 UTC</dateCreated>
+</dataStore>

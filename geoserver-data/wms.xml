@@ -39,6 +39,7 @@
   <srs>
     <string>3067</string>
     <string>4326</string>
+    <string>2393</string>
   </srs>
   <watermark>
     <enabled>false</enabled>
@@ -51,9 +52,9 @@
   <dynamicStylingDisabled>false</dynamicStylingDisabled>
   <featuresReprojectionDisabled>false</featuresReprojectionDisabled>
   <maxBuffer>0</maxBuffer>
-  <maxRequestMemory>0</maxRequestMemory>
-  <maxRenderingTime>0</maxRenderingTime>
-  <maxRenderingErrors>0</maxRenderingErrors>
+  <maxRequestMemory>20480</maxRequestMemory>
+  <maxRenderingTime>60</maxRenderingTime>
+  <maxRenderingErrors>1000</maxRenderingErrors>
   <cacheConfiguration>
     <enabled>false</enabled>
     <maxEntries>1000</maxEntries>

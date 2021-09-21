@@ -1,0 +1,17 @@
+<layer>
+  <name>ProtectedAreaReservation_RegionalPlan</name>
+  <id>LayerInfoImpl-5ae34720:17b811bea00:-7fc6</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-5ae34720:17b811bea00:-7ff3</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-5ae34720:17b811bea00:-7fc7</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-08-26 12:27:11.500 UTC</dateCreated>
+  <dateModified>2021-08-26 12:27:33.488 UTC</dateModified>
+</layer>

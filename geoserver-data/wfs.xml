@@ -1,6 +1,6 @@
 <wfs>
   <id>WFSInfoImpl--76a3869:178d3e5da4f:-8000</id>
-  <enabled>true</enabled>
+  <enabled>false</enabled>
   <name>WFS</name>
   <versions>
     <org.geotools.util.Version>
@@ -31,17 +31,17 @@
       </gml>
     </entry>
     <entry>
-      <version>V_11</version>
-      <gml>
-        <srsNameStyle>URN</srsNameStyle>
-        <overrideGMLAttributes>false</overrideGMLAttributes>
-      </gml>
-    </entry>
-    <entry>
       <version>V_10</version>
       <gml>
         <srsNameStyle>XML</srsNameStyle>
         <overrideGMLAttributes>true</overrideGMLAttributes>
+      </gml>
+    </entry>
+    <entry>
+      <version>V_11</version>
+      <gml>
+        <srsNameStyle>URN</srsNameStyle>
+        <overrideGMLAttributes>false</overrideGMLAttributes>
       </gml>
     </entry>
   </gml>
@@ -51,6 +51,7 @@
   <canonicalSchemaLocation>true</canonicalSchemaLocation>
   <encodeFeatureMember>false</encodeFeatureMember>
   <hitsIgnoreMaxFeatures>false</hitsIgnoreMaxFeatures>
+  <includeWFSRequestDumpFile>false</includeWFSRequestDumpFile>
   <allowGlobalQueries>true</allowGlobalQueries>
   <simpleConversionEnabled>false</simpleConversionEnabled>
 </wfs>
