@@ -11,7 +11,8 @@ parameters:
     value: postgis
   - name: DB_IMAGE
     required: true
-    value: postgis/postgis:16-master
+    # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
+    value: ghcr.io/luomus/postgis-image:main@sha256:7fc3b406add17d720281dab1c118d652a69a4d6db57e6ebe2fa3c78118c0fc42
   - name: DB_HEALTHCHECK
     required: true
     value: '[
@@ -47,6 +48,21 @@ objects:
     resources:
       requests:
         storage: "10Gi"
+- kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: ${APP}
+  data:
+    db: ${DB}
+    db_data_path: ${DB_PATH}${DB_DATA}
+- kind: Secret
+  apiVersion: v1
+  metadata:
+    name: ${APP}
+  type: Opaque
+  data:
+    db_user: ${DB_USER}
+    db_password: ${DB_PASSWORD}
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -58,6 +74,8 @@ objects:
     selector:
       matchLabels:
         app: ${APP}
+    strategy:
+      type: Recreate
     template:
       metadata:
         labels:
@@ -83,14 +101,39 @@ objects:
             periodSeconds: 5
           env:
           - name: POSTGRES_DATABASE
-            value: ${DB}
-          - name: POSTGRES_USER
-            value: ${DB_USER}
-          - name: POSTGRES_PASSWORD
-            value: ${DB_PASSWORD}
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}
+                key: db
           - name: PGDATA
-            value: ${DB_PATH}${DB_DATA}
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}
+                key: db_data_path
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}
+                key: db_user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}
+                key: db_password
         volumes:
         - name: ${DB}-${BRANCH}
           persistentVolumeClaim:
             claimName: ${DB}-${BRANCH}
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: ${DB}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    ports:
+    - name: ${DB_PORT}
+      port: ${{DB_PORT}}
+      targetPort: ${{DB_PORT}}
+    selector:
+      app: ${APP}
