@@ -28,9 +28,21 @@ if [ $i = "volume" ]; then
 
 ITEM=".items[0]"
 
-elif [ $i = "deploy-db" ]; then
+elif [ $i = "configmap" ]; then
 
 ITEM=".items[1]"
+
+elif [ $i = "secrets" ]; then
+
+ITEM=".items[2]"
+
+elif [ $i = "deploy-db" ]; then
+
+ITEM=".items[3]"
+
+elif [ $i = "service-db" ]; then
+
+ITEM=".items[4]"
 
 else
 
@@ -38,9 +50,12 @@ else
 
 fi
 
+DB_USER=$(echo -n $DB_USER | base64)
+DB_PASSWORD=$(echo -n $DB_PASSWORD | base64)
+
 oc process -f $f \
--p BRANCH=$BRANCH \
--p DB_PORT=$DB_PORT \
--p DB_USER=$DB_USER \
--p DB_PASSWORD=$DB_PASSWORD \
+-p BRANCH="$BRANCH" \
+-p DB_PORT="$DB_PORT" \
+-p DB_USER="$DB_USER" \
+-p DB_PASSWORD="$DB_PASSWORD" \
 | jq $ITEM
