@@ -9,17 +9,20 @@ parameters:
   - name: DB
     required: true
     value: postgis
+  - name: DB_NAME
+    required: true
+    value: gis
   - name: DB_IMAGE
     required: true
     # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
-    value: ghcr.io/luomus/postgis-image:main@sha256:7fc3b406add17d720281dab1c118d652a69a4d6db57e6ebe2fa3c78118c0fc42
+    value: ghcr.io/luomus/postgis-image:main@sha256:00d15dcc7f022982314646b29608a5083fb2c2250064dfd3513ae5028d92dc05
   - name: DB_HEALTHCHECK
     required: true
     value: '[
       "sh",
       "-c",
       "PGPASSWORD=$POSTGRES_PASSWORD
-        psql -h 0.0.0.0 -U $POSTGRES_USER -d $POSTGRES_DATABASE -c \"SELECT 1\""
+        psql -h 0.0.0.0 -U $POSTGRES_USER -d postgres -c \"SELECT 1\""
     ]'
   - name: DB_PATH
     required: true
@@ -53,7 +56,7 @@ objects:
   metadata:
     name: ${APP}
   data:
-    db: ${DB}
+    db_name: ${DB_NAME}
     db_data_path: ${DB_PATH}${DB_DATA}
 - kind: Secret
   apiVersion: v1
@@ -85,7 +88,7 @@ objects:
         - image: ${DB_IMAGE}
           name: ${DB}-${BRANCH}
           volumeMounts:
-          - mountPath: ${DB_DATA}
+          - mountPath: ${DB_PATH}
             name: ${DB}-${BRANCH}
           ports:
             - containerPort: ${{DB_PORT}}
@@ -100,11 +103,11 @@ objects:
             initialDelaySeconds: 5
             periodSeconds: 5
           env:
-          - name: POSTGRES_DATABASE
+          - name: POSTGRES_DB
             valueFrom:
               configMapKeyRef:
                 name: ${APP}
-                key: db
+                key: db_name
           - name: PGDATA
             valueFrom:
               configMapKeyRef:
