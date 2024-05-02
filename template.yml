@@ -9,7 +9,7 @@ parameters:
   - name: APP_IMAGE
     required: true
     # docker manifest inspect ghcr.io/luomus/geoserver-image:main -v | jq '.Descriptor.digest'
-    value: ghcr.io/luomus/geoserver-image:main@sha256:4b946bd57b18ca8e61b52313725e1b883fdd8391972fc4643df5d0dfddcabb0d
+    value: ghcr.io/luomus/geoserver-image:main@sha256:f6ac84040df59c3ebc50c7921ee1e23cd71778040a806ae634e0e7e15e2d88df
   - name: APP_PORT
     required: true
     value: "8080"
@@ -19,6 +19,18 @@ parameters:
   - name: APP_PATH
     required: true
     value: /opt/geoserver_data
+  - name: SKIP_DEMO_DATA
+    requried: true
+    value: "true"
+  - name: ROOT_WEBAPP_REDIRECT
+    requried: true
+    value: "true"
+  - name: INSTALL_EXTENSIONS
+    requried: true
+    value: "true"
+  - name: STABLE_EXTENSIONS
+    requried: true
+    value: "vectortiles,wps,printing,libjpeg-turbo,control-flow,pyramid,gdal,monitor,inspire,csw"
   - name: DB
     required: true
     value: postgis
@@ -93,6 +105,10 @@ objects:
     db_host: ${DB}-${BRANCH}
     db_name: ${DB_NAME}
     db_data_path: ${DB_PATH}${DB_DATA}
+    skip_demo_data: ${SKIP_DEMO_DATA}
+    root_webapp_redirect: ${ROOT_WEBAPP_REDIRECT}
+    install_extensions: ${INSTALL_EXTENSIONS}
+    stable_extensions: ${STABLE_EXTENSIONS}
 - kind: Secret
   apiVersion: v1
   metadata:
@@ -135,13 +151,14 @@ objects:
             httpGet:
               path: ${APP_HEALTHCHECK}
               port: ${{APP_PORT}}
+            initialDelaySeconds: 70
             failureThreshold: 5
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: ${APP_HEALTHCHECK}
               port: ${{APP_PORT}}
-            initialDelaySeconds: 5
+            initialDelaySeconds: 70
             periodSeconds: 5
           env:
           - name: HOST
@@ -154,6 +171,26 @@ objects:
               configMapKeyRef:
                 name: ${APP}-${BRANCH}
                 key: db_name
+          - name: SKIP_DEMO_DATA
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: skip_demo_data
+          - name: ROOT_WEBAPP_REDIRECT
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: root_webapp_redirect
+          - name: INSTALL_EXTENSIONS
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: install_extensions
+          - name: STABLE_EXTENSIONS
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: stable_extensions
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
