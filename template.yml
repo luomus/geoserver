@@ -6,6 +6,19 @@ parameters:
   - name: APP
     required: true
     value: geoserver
+  - name: APP_IMAGE
+    required: true
+    # docker manifest inspect ghcr.io/luomus/geoserver-image:main -v | jq '.Descriptor.digest'
+    value: ghcr.io/luomus/geoserver-image:main@sha256:4b946bd57b18ca8e61b52313725e1b883fdd8391972fc4643df5d0dfddcabb0d
+  - name: APP_PORT
+    required: true
+    value: "8080"
+  - name: APP_HEALTHCHECK
+    required: true
+    value: /geoserver
+  - name: APP_PATH
+    required: true
+    value: /opt/geoserver_data
   - name: DB
     required: true
     value: postgis
@@ -32,6 +45,15 @@ parameters:
     value: /pgdata
   - name: DB_PORT
     required: true
+    value: "5432"
+  - name: GEOSERVER_DB_USER
+    required: true
+  - name: GEOSERVER_DB_PASSWORD
+    required: true
+  - name: GEOSERVER_ADMIN_USER
+    required: true
+  - name: GEOSERVER_ADMIN_PASSWORD
+    required: true
   - name: DB_USER
     required: true
   - name: DB_PASSWORD
@@ -39,6 +61,18 @@ parameters:
 metadata:
   name: ${APP}
 objects:
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+   name: ${APP}-${BRANCH}
+  spec:
+    storageClassName: "standard-csi"
+    accessModes:
+    - ReadWriteOnce
+    persistentVolumeReclaimPolicy: Retain
+    resources:
+      requests:
+        storage: "10Gi"
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
@@ -54,18 +88,96 @@ objects:
 - kind: ConfigMap
   apiVersion: v1
   metadata:
-    name: ${APP}
+    name: ${APP}-${BRANCH}
   data:
+    db_host: ${DB}-${BRANCH}
     db_name: ${DB_NAME}
     db_data_path: ${DB_PATH}${DB_DATA}
 - kind: Secret
   apiVersion: v1
   metadata:
-    name: ${APP}
+    name: ${APP}-${BRANCH}
   type: Opaque
   data:
     db_user: ${DB_USER}
     db_password: ${DB_PASSWORD}
+    geoserver_db_user: ${GEOSERVER_DB_USER}
+    geoserver_db_password: ${GEOSERVER_DB_PASSWORD}
+    geoserver_admin_user: ${GEOSERVER_ADMIN_USER}
+    geoserver_admin_password: ${GEOSERVER_ADMIN_PASSWORD}
+- kind: Deployment
+  apiVersion: apps/v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: ${APP}
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          app: ${APP}
+      spec:
+        containers:
+        - image: ${APP_IMAGE}
+          name: ${APP}-${BRANCH}
+          volumeMounts:
+          - mountPath: ${APP_PATH}
+            name: ${APP}-${BRANCH}
+          ports:
+            - containerPort: ${{APP_PORT}}
+          livenessProbe:
+            httpGet:
+              path: ${APP_HEALTHCHECK}
+              port: ${{APP_PORT}}
+            failureThreshold: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: ${APP_HEALTHCHECK}
+              port: ${{APP_PORT}}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          env:
+          - name: HOST
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: db_host
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: db_name
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: geoserver_db_user
+          - name: POSTGRES_PASS
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: geoserver_db_password
+          - name: GEOSERVER_ADMIN_USER
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: geoserver_admin_user
+          - name: GEOSERVER_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: geoserver_admin_password
+        volumes:
+        - name: ${APP}-${BRANCH}
+          persistentVolumeClaim:
+            claimName: ${APP}-${BRANCH}
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -106,22 +218,22 @@ objects:
           - name: POSTGRES_DB
             valueFrom:
               configMapKeyRef:
-                name: ${APP}
+                name: ${APP}-${BRANCH}
                 key: db_name
           - name: PGDATA
             valueFrom:
               configMapKeyRef:
-                name: ${APP}
+                name: ${APP}-${BRANCH}
                 key: db_data_path
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
-                name: ${APP}
+                name: ${APP}-${BRANCH}
                 key: db_user
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: ${APP}
+                name: ${APP}-${BRANCH}
                 key: db_password
         volumes:
         - name: ${DB}-${BRANCH}
