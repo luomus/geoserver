@@ -20,6 +20,7 @@ BRANCH=$(git symbolic-ref --short -q HEAD)
 
 if [ "$BRANCH" != "main" ]; then
 
+  HOST=$DEV_HOST
   DB_PASSWORD=$DEV_DB_PASSWORD
 
 fi
@@ -75,6 +76,7 @@ DB_PASSWORD=$(echo -n $DB_PASSWORD | base64)
 
 oc process -f $f \
   -p BRANCH="$BRANCH" \
+  -p HOST="$HOST" \
   -p DB_USER="$DB_USER" \
   -p DB_PASSWORD="$DB_PASSWORD" \
   | jq $ITEM

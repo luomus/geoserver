@@ -24,18 +24,6 @@ parameters:
   - name: APP_PATH
     required: true
     value: /opt/geoserver_data
-  - name: SKIP_DEMO_DATA
-    requried: true
-    value: "true"
-  - name: ROOT_WEBAPP_REDIRECT
-    requried: true
-    value: "true"
-  - name: INSTALL_EXTENSIONS
-    requried: true
-    value: "true"
-  - name: STABLE_EXTENSIONS
-    requried: true
-    value: "vectortiles,wps,printing,control-flow,pyramid,monitor,inspire,csw"
   - name: DB
     required: true
     value: postgis
@@ -63,6 +51,8 @@ parameters:
   - name: DB_PORT
     required: true
     value: "5432"
+  - name: HOST
+    required: true
   - name: DB_USER
     required: true
   - name: DB_PASSWORD
@@ -180,14 +170,10 @@ objects:
               port: ${{APP_PORT}}
             periodSeconds: 5
           env:
-          - name: SKIP_DEMO_DATA
-            value: ${SKIP_DEMO_DATA}
-          - name: ROOT_WEBAPP_REDIRECT
-            value: ${ROOT_WEBAPP_REDIRECT}
-          - name: INSTALL_EXTENSIONS
-            value: ${INSTALL_EXTENSIONS}
-          - name: STABLE_EXTENSIONS
-            value: ${STABLE_EXTENSIONS}
+          - name: PROXY_BASE_URL
+            value: https://${HOST}/${APP}
+          - name: GEOSERVER_CSRF_WHITELIST
+            value: ${HOST}
         volumes:
         - name: ${APP}-${BRANCH}
           persistentVolumeClaim:
@@ -284,6 +270,7 @@ objects:
     labels:
       app: ${APP}
   spec:
+    host:
     port:
       targetPort: ${{APP_PORT}}
     to:
