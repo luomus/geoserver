@@ -152,7 +152,7 @@ objects:
             name: ${APP}-${BRANCH}
           ports:
             - containerPort: ${{APP_PORT}}
-          startUpProbe:
+          startupProbe:
             httpGet:
               path: ${APP_HEALTHCHECK}
               port: ${{APP_PORT}}
