@@ -15,10 +15,6 @@ parameters:
   - name: STORAGE
     required: true
     value: 10Gi
-  - name: APP_IMAGE
-    required: true
-    # docker manifest inspect ghcr.io/luomus/geoserver-image:main -v | jq '.Descriptor.digest'
-    value: ghcr.io/luomus/geoserver-image:main@sha256:25c3802d97f20dbfc16414201173dbb029b91da1e82fc8ea1a579e8512810979
   - name: APP_PORT
     required: true
     value: "8080"
@@ -159,7 +155,7 @@ objects:
           app: ${APP}
       spec:
         containers:
-        - image: ${APP_IMAGE}
+        - image: ${APP}-${BRANCH}:latest
           name: ${APP}-${BRANCH}
           volumeMounts:
           - mountPath: ${APP_PATH}
