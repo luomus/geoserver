@@ -21,19 +21,10 @@ parameters:
   - name: APP_HEALTHCHECK
     required: true
     value: /geoserver
-  - name: APP_PATH
-    required: true
-    value: /opt/geoserver_data
   - name: DB
     required: true
     value: postgis
-  - name: DB_NAME
-    required: true
-    value: gis
-  - name: DB_IMAGE
-    required: true
-    # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
-    value: ghcr.io/luomus/postgis-image:main@sha256:00d15dcc7f022982314646b29608a5083fb2c2250064dfd3513ae5028d92dc05
+    value: 
   - name: DB_HEALTHCHECK
     required: true
     value: '[
@@ -148,7 +139,7 @@ objects:
         - image: ${APP}-${BRANCH}:latest
           name: ${APP}-${BRANCH}
           volumeMounts:
-          - mountPath: ${APP_PATH}
+          - mountPath: /opt/geoserver_data
             name: ${APP}-${BRANCH}
           ports:
             - containerPort: ${{APP_PORT}}
@@ -197,7 +188,8 @@ objects:
           app: ${APP}
       spec:
         containers:
-        - image: ${DB_IMAGE}
+        # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
+        - image: ghcr.io/luomus/postgis-image:main@sha256:00d15dcc7f022982314646b29608a5083fb2c2250064dfd3513ae5028d92dc05
           name: ${DB}-${BRANCH}
           volumeMounts:
           - mountPath: ${DB_PATH}
@@ -220,7 +212,7 @@ objects:
             periodSeconds: 5
           env:
           - name: POSTGRES_DB
-            value: ${DB_NAME}
+            value: gis
           - name: PGDATA
             value: ${DB_PATH}${DB_DATA}
           - name: POSTGRES_USER
