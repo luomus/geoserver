@@ -71,6 +71,10 @@ parameters:
     required: true
   - name: DB_PASSWORD
     required: true
+  - name: GITHUB_SECRET
+    required: true
+    generate: expression
+    from: "[a-zA-Z0-9]{20}"
 metadata:
   name: ${APP}
 objects:
@@ -96,6 +100,38 @@ objects:
     resources:
       requests:
         storage: ${STORAGE}
+- kind: ImageStream
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    lookupPolicy:
+      local: true
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${APP}-${BRANCH}:latest
+    source:
+      type: Git
+      git:
+        uri: https://github.com/luomus/${APP}.git
+        ref: ${BRANCH}
+    strategy:
+      type: Docker
+    triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secret: ${GITHUB_SECRET}
 - kind: Secret
   apiVersion: v1
   metadata:
