@@ -6,6 +6,15 @@ parameters:
   - name: APP
     required: true
     value: geoserver
+  - name: STORAGE_CLASS
+    required: true
+    value: standard-csi
+  - name: ACCESS_MODE
+    required: true
+    value: ReadWriteOnce
+  - name: STORAGE
+    required: true
+    value: 10Gi
   - name: APP_IMAGE
     required: true
     # docker manifest inspect ghcr.io/luomus/geoserver-image:main -v | jq '.Descriptor.digest'
@@ -58,14 +67,6 @@ parameters:
   - name: DB_PORT
     required: true
     value: "5432"
-  - name: GEOSERVER_DB_USER
-    required: true
-  - name: GEOSERVER_DB_PASSWORD
-    required: true
-  - name: GEOSERVER_ADMIN_USER
-    required: true
-  - name: GEOSERVER_ADMIN_PASSWORD
-    required: true
   - name: DB_USER
     required: true
   - name: DB_PASSWORD
@@ -78,37 +79,23 @@ objects:
   metadata:
    name: ${APP}-${BRANCH}
   spec:
-    storageClassName: "standard-csi"
+    storageClassName: ${STORAGE_CLASS}
     accessModes:
-    - ReadWriteOnce
-    persistentVolumeReclaimPolicy: Retain
+    - ${ACCESS_MODE}
     resources:
       requests:
-        storage: "10Gi"
+        storage: ${STORAGE}
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
    name: ${DB}-${BRANCH}
   spec:
-    storageClassName: "standard-csi"
+    storageClassName: ${STORAGE_CLASS}
     accessModes:
-    - ReadWriteOnce
-    persistentVolumeReclaimPolicy: Retain
+    - ${ACCESS_MODE}
     resources:
       requests:
-        storage: "10Gi"
-- kind: ConfigMap
-  apiVersion: v1
-  metadata:
-    name: ${APP}-${BRANCH}
-  data:
-    db_host: ${DB}-${BRANCH}
-    db_name: ${DB_NAME}
-    db_data_path: ${DB_PATH}${DB_DATA}
-    skip_demo_data: ${SKIP_DEMO_DATA}
-    root_webapp_redirect: ${ROOT_WEBAPP_REDIRECT}
-    install_extensions: ${INSTALL_EXTENSIONS}
-    stable_extensions: ${STABLE_EXTENSIONS}
+        storage: ${STORAGE}
 - kind: Secret
   apiVersion: v1
   metadata:
@@ -117,10 +104,6 @@ objects:
   data:
     db_user: ${DB_USER}
     db_password: ${DB_PASSWORD}
-    geoserver_db_user: ${GEOSERVER_DB_USER}
-    geoserver_db_password: ${GEOSERVER_DB_PASSWORD}
-    geoserver_admin_user: ${GEOSERVER_ADMIN_USER}
-    geoserver_admin_password: ${GEOSERVER_ADMIN_PASSWORD}
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -147,70 +130,32 @@ objects:
             name: ${APP}-${BRANCH}
           ports:
             - containerPort: ${{APP_PORT}}
+          startUpProbe:
+            httpGet:
+              path: ${APP_HEALTHCHECK}
+              port: ${{APP_PORT}}
+            failureThreshold: 5
+            periodSeconds: 100
           livenessProbe:
             httpGet:
               path: ${APP_HEALTHCHECK}
               port: ${{APP_PORT}}
-            initialDelaySeconds: 70
             failureThreshold: 5
             periodSeconds: 30
           readinessProbe:
             httpGet:
               path: ${APP_HEALTHCHECK}
               port: ${{APP_PORT}}
-            initialDelaySeconds: 70
             periodSeconds: 5
           env:
-          - name: HOST
-            valueFrom:
-              configMapKeyRef:
-                name: ${APP}-${BRANCH}
-                key: db_host
-          - name: POSTGRES_DB
-            valueFrom:
-              configMapKeyRef:
-                name: ${APP}-${BRANCH}
-                key: db_name
           - name: SKIP_DEMO_DATA
-            valueFrom:
-              configMapKeyRef:
-                name: ${APP}-${BRANCH}
-                key: skip_demo_data
+            value: ${SKIP_DEMO_DATA}
           - name: ROOT_WEBAPP_REDIRECT
-            valueFrom:
-              configMapKeyRef:
-                name: ${APP}-${BRANCH}
-                key: root_webapp_redirect
+            value: ${ROOT_WEBAPP_REDIRECT}
           - name: INSTALL_EXTENSIONS
-            valueFrom:
-              configMapKeyRef:
-                name: ${APP}-${BRANCH}
-                key: install_extensions
+            value: ${INSTALL_EXTENSIONS}
           - name: STABLE_EXTENSIONS
-            valueFrom:
-              configMapKeyRef:
-                name: ${APP}-${BRANCH}
-                key: stable_extensions
-          - name: POSTGRES_USER
-            valueFrom:
-              secretKeyRef:
-                name: ${APP}-${BRANCH}
-                key: geoserver_db_user
-          - name: POSTGRES_PASS
-            valueFrom:
-              secretKeyRef:
-                name: ${APP}-${BRANCH}
-                key: geoserver_db_password
-          - name: GEOSERVER_ADMIN_USER
-            valueFrom:
-              secretKeyRef:
-                name: ${APP}-${BRANCH}
-                key: geoserver_admin_user
-          - name: GEOSERVER_ADMIN_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: ${APP}-${BRANCH}
-                key: geoserver_admin_password
+            value: ${STABLE_EXTENSIONS}
         volumes:
         - name: ${APP}-${BRANCH}
           persistentVolumeClaim:
@@ -241,6 +186,11 @@ objects:
             name: ${DB}-${BRANCH}
           ports:
             - containerPort: ${{DB_PORT}}
+          startupProbe:
+            exec:
+              command: ${{DB_HEALTHCHECK}}
+            periodSeconds: 5
+            failureThreshold: 10
           livenessProbe:
             exec:
               command: ${{DB_HEALTHCHECK}}
@@ -249,19 +199,12 @@ objects:
           readinessProbe:
             exec:
               command: ${{DB_HEALTHCHECK}}
-            initialDelaySeconds: 5
             periodSeconds: 5
           env:
           - name: POSTGRES_DB
-            valueFrom:
-              configMapKeyRef:
-                name: ${APP}-${BRANCH}
-                key: db_name
+            value: ${DB_NAME}
           - name: PGDATA
-            valueFrom:
-              configMapKeyRef:
-                name: ${APP}-${BRANCH}
-                key: db_data_path
+            value: ${DB_PATH}${DB_DATA}
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
@@ -279,6 +222,19 @@ objects:
 - kind: Service
   apiVersion: v1
   metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    ports:
+    - name: ${APP_PORT}
+      port: ${{APP_PORT}}
+      targetPort: ${{APP_PORT}}
+    selector:
+      app: ${APP}
+- kind: Service
+  apiVersion: v1
+  metadata:
     name: ${DB}-${BRANCH}
     labels:
       app: ${APP}
@@ -289,3 +245,15 @@ objects:
       targetPort: ${{DB_PORT}}
     selector:
       app: ${APP}
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+    labels:
+      app: ${APP}
+  spec:
+    port:
+      targetPort: ${{APP_PORT}}
+    to:
+      kind: Service
+      name: ${APP}-${BRANCH}
