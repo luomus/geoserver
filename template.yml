@@ -223,7 +223,7 @@ objects:
       spec:
         containers:
         # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
-        - image: ghcr.io/luomus/postgis-image:main@sha256:dddeefb4308827a07aa82b0908f694bb823326f823207292e1f2532e9aa4907f
+        - image: ghcr.io/luomus/postgis-image:main@sha256:62af4408cfe22de8ecd5a64065c1be6c5efe996513686823726aa2b1da378719
           name: ${DB}-${BRANCH}
           volumeMounts:
           - mountPath: ${DB_PATH}
