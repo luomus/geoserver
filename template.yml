@@ -181,12 +181,12 @@ objects:
             value: ${HOST}
           - name: BRANCH
             valueFrom:
-              configMapRef:
+              configMapKeyRef:
                 name: ${APP}-${BRANCH}
                 key: branch
           - name: OBJECT_STORE
             valueFrom:
-              configMapRef:
+              configMapKeyRef:
                 name: ${APP}-${BRANCH}
                 key: object_store
           - name: RCLONE_CONFIG_DEFAULT_ACCESS_KEY_ID
@@ -223,7 +223,7 @@ objects:
       spec:
         containers:
         # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
-        - image: ghcr.io/luomus/postgis-image:main@sha256:59fd093fb7919c72c7eb35d2891a1825e9358adea04c19cab586c62dfe0dbead
+        - image: ghcr.io/luomus/postgis-image:main@sha256:dddeefb4308827a07aa82b0908f694bb823326f823207292e1f2532e9aa4907f
           name: ${DB}-${BRANCH}
           volumeMounts:
           - mountPath: ${DB_PATH}
@@ -247,12 +247,12 @@ objects:
           env:
           - name: BRANCH
             valueFrom:
-              configMapRef:
+              configMapKeyRef:
                 name: ${APP}-${BRANCH}
                 key: branch
           - name: OBJECT_STORE
             valueFrom:
-              configMapRef:
+              configMapKeyRef:
                 name: ${APP}-${BRANCH}
                 key: object_store
           - name: PGDATA
