@@ -41,29 +41,33 @@ elif [ $i = "build" ]; then
 
   ITEM=".items[3]"  
 
-elif [ $i = "secrets" ]; then
+elif [ $i = "config" ]; then
 
   ITEM=".items[4]"
 
-elif [ $i = "deploy-app" ]; then
+elif [ $i = "secrets" ]; then
 
   ITEM=".items[5]"
 
-elif [ $i = "deploy-db" ]; then
+elif [ $i = "deploy-app" ]; then
 
   ITEM=".items[6]"
 
-elif [ $i = "service-app" ]; then
+elif [ $i = "deploy-db" ]; then
 
   ITEM=".items[7]"
 
-elif [ $i = "service-db" ]; then
+elif [ $i = "service-app" ]; then
 
   ITEM=".items[8]"
 
-elif [ $i = "route" ]; then
+elif [ $i = "service-db" ]; then
 
   ITEM=".items[9]"
+
+elif [ $i = "route" ]; then
+
+  ITEM=".items[10]"
 
 else
 
@@ -79,4 +83,7 @@ oc process -f $f \
   -p HOST="$HOST" \
   -p DB_USER="$DB_USER" \
   -p DB_PASSWORD="$DB_PASSWORD" \
+  -p OBJECT_STORE="$OBJECT_STORE" \
+  -p RCLONE_ACCESS_KEY_ID="$RCLONE_ACCESS_KEY_ID" \
+  -p RCLONE_SECRET_ACCESS_KEY="$RCLONE_SECRET_ACCESS_KEY" \
   | jq $ITEM

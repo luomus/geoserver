@@ -2,6 +2,8 @@
 FROM docker.osgeo.org/geoserver:2.25.0@sha256:19335fcc02fbdcbcff0acdc89a05831f88e074d9025e49b11cb0355df1091c4f
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY backup.sh /usr/local/bin/backup.sh
+COPY rclone.conf /opt/.config/rclone/rclone.conf
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -15,7 +17,7 @@ ENV SKIP_DEMO_DATA true
 ENV ROOT_WEBAPP_REDIRECT true
 ENV INSTALL_EXTENSIONS true
 ENV STABLE_EXTENSIONS "vectortiles,wps,printing,control-flow,pyramid,monitor,inspire,csw"
-ENV EXTRA_JAVA_OPTS "-Xms8g -Xmx8g -DENTITY_RESOLUTION_ALLOWLIST=*"
+ENV EXTRA_JAVA_OPTS "-Xms256m -Xmx1g -DENTITY_RESOLUTION_ALLOWLIST=*"
 
 RUN /opt/install-extensions.sh \
  && echo "" > /opt/install-extensions.sh

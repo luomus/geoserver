@@ -24,7 +24,6 @@ parameters:
   - name: DB
     required: true
     value: postgis
-    value: 
   - name: DB_HEALTHCHECK
     required: true
     value: '[
@@ -47,6 +46,12 @@ parameters:
   - name: DB_USER
     required: true
   - name: DB_PASSWORD
+    required: true
+  - name: OBJECT_STORE
+    required: true
+  - name: RCLONE_ACCESS_KEY_ID
+    required: true
+  - name: RCLONE_SECRET_ACCESS_KEY
     required: true
   - name: GITHUB_SECRET
     required: true
@@ -109,6 +114,13 @@ objects:
     - type: GitHub
       github:
         secret: ${GITHUB_SECRET}
+- kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: ${APP}-${BRANCH}
+  data:
+    branch: ${BRANCH}
+    object_store: ${OBJECT_STORE}
 - kind: Secret
   apiVersion: v1
   metadata:
@@ -117,6 +129,8 @@ objects:
   data:
     db_user: ${DB_USER}
     db_password: ${DB_PASSWORD}
+    rclone_access_key_id: ${RCLONE_ACCESS_KEY_ID}
+    rclone_secret_access_key: ${RCLONE_SECRET_ACCESS_KEY}
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -165,6 +179,26 @@ objects:
             value: https://${HOST}/${APP}
           - name: GEOSERVER_CSRF_WHITELIST
             value: ${HOST}
+          - name: BRANCH
+            valueFrom:
+              configMapRef:
+                name: ${APP}-${BRANCH}
+                key: branch
+          - name: OBJECT_STORE
+            valueFrom:
+              configMapRef:
+                name: ${APP}-${BRANCH}
+                key: object_store
+          - name: RCLONE_CONFIG_DEFAULT_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: rclone_access_key_id
+          - name: RCLONE_CONFIG_DEFAULT_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: rclone_secret_access_key
         volumes:
         - name: ${APP}-${BRANCH}
           persistentVolumeClaim:
@@ -189,7 +223,7 @@ objects:
       spec:
         containers:
         # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
-        - image: ghcr.io/luomus/postgis-image:main@sha256:00d15dcc7f022982314646b29608a5083fb2c2250064dfd3513ae5028d92dc05
+        - image: ghcr.io/luomus/postgis-image:main@sha256:59fd093fb7919c72c7eb35d2891a1825e9358adea04c19cab586c62dfe0dbead
           name: ${DB}-${BRANCH}
           volumeMounts:
           - mountPath: ${DB_PATH}
@@ -211,10 +245,22 @@ objects:
               command: ${{DB_HEALTHCHECK}}
             periodSeconds: 5
           env:
-          - name: POSTGRES_DB
-            value: gis
+          - name: BRANCH
+            valueFrom:
+              configMapRef:
+                name: ${APP}-${BRANCH}
+                key: branch
+          - name: OBJECT_STORE
+            valueFrom:
+              configMapRef:
+                name: ${APP}-${BRANCH}
+                key: object_store
           - name: PGDATA
             value: ${DB_PATH}${DB_DATA}
+          - name: POSTGRES_DB
+            value: gis
+          - name: POSTGRES_PORT
+            value: ${DB_PORT}
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
@@ -225,6 +271,16 @@ objects:
               secretKeyRef:
                 name: ${APP}-${BRANCH}
                 key: db_password
+          - name: RCLONE_CONFIG_DEFAULT_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: rclone_access_key_id
+          - name: RCLONE_CONFIG_DEFAULT_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: rclone_secret_access_key
         volumes:
         - name: ${DB}-${BRANCH}
           persistentVolumeClaim:
