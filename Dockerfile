@@ -17,7 +17,7 @@ ENV SKIP_DEMO_DATA true
 ENV ROOT_WEBAPP_REDIRECT true
 ENV INSTALL_EXTENSIONS true
 ENV STABLE_EXTENSIONS "vectortiles,wps,printing,control-flow,pyramid,monitor,inspire,csw"
-ENV EXTRA_JAVA_OPTS "-Xms256m -Xmx1g -DENTITY_RESOLUTION_ALLOWLIST=*"
+ENV EXTRA_JAVA_OPTS "-Xms8g -Xmx8g -DENTITY_RESOLUTION_ALLOWLIST=*"
 
 RUN /opt/install-extensions.sh \
  && echo "" > /opt/install-extensions.sh
