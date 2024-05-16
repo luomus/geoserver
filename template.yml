@@ -199,6 +199,10 @@ objects:
               secretKeyRef:
                 name: ${APP}-${BRANCH}
                 key: rclone_secret_access_key
+          resources:
+            limits:
+              cpu: "1500m"
+              memory: "6Gi"
         volumes:
         - name: ${APP}-${BRANCH}
           persistentVolumeClaim:
@@ -281,6 +285,9 @@ objects:
               secretKeyRef:
                 name: ${APP}-${BRANCH}
                 key: rclone_secret_access_key
+          resources:
+            limits:
+              memory: "2Gi"
         volumes:
         - name: ${DB}-${BRANCH}
           persistentVolumeClaim:
