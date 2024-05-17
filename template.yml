@@ -43,6 +43,8 @@ parameters:
     value: "5432"
   - name: HOST
     required: true
+  - name: DB_NAME
+    required: true
   - name: DB_USER
     required: true
   - name: DB_PASSWORD
@@ -121,6 +123,8 @@ objects:
   data:
     branch: ${BRANCH}
     object_store: ${OBJECT_STORE}
+    db_name: ${DB_NAME}
+    db_port: ${DB_PORT}
 - kind: Secret
   apiVersion: v1
   metadata:
@@ -189,6 +193,28 @@ objects:
               configMapKeyRef:
                 name: ${APP}-${BRANCH}
                 key: object_store
+          - name: POSTGRES_HOST
+            value: ${DB}-${BRANCH}
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: db_name
+          - name: POSTGRES_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: db_port
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: db_user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ${APP}-${BRANCH}
+                key: db_password
           - name: RCLONE_CONFIG_DEFAULT_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
@@ -227,7 +253,7 @@ objects:
       spec:
         containers:
         # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
-        - image: ghcr.io/luomus/postgis-image:main@sha256:62af4408cfe22de8ecd5a64065c1be6c5efe996513686823726aa2b1da378719
+        - image: ghcr.io/luomus/postgis-image:main@sha256:78d54387d8a426856adbcd0ec2542cfdab2ab10def7e1373bbb0c95f410aeebd
           name: ${DB}-${BRANCH}
           volumeMounts:
           - mountPath: ${DB_PATH}
@@ -262,9 +288,15 @@ objects:
           - name: PGDATA
             value: ${DB_PATH}${DB_DATA}
           - name: POSTGRES_DB
-            value: gis
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: db_name
           - name: POSTGRES_PORT
-            value: ${DB_PORT}
+            valueFrom:
+              configMapKeyRef:
+                name: ${APP}-${BRANCH}
+                key: db_port
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:

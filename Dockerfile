@@ -9,6 +9,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       rclone \
       rsync \
+      postgresql-client \
  && apt-get autoremove --purge -y \
  && apt-get autoclean -y \
  && rm -rf /var/lib/apt/lists/*

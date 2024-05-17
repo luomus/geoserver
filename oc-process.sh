@@ -22,6 +22,7 @@ if [ "$BRANCH" != "main" ]; then
 
   HOST=$DEV_HOST
   DB_PASSWORD=$DEV_DB_PASSWORD
+  GEOSERVER_DB_PASSWORD=$DEV_GEOSERVER_DB_PASSWORD
 
 fi
 
@@ -77,10 +78,13 @@ fi
 
 DB_USER=$(echo -n $DB_USER | base64)
 DB_PASSWORD=$(echo -n $DB_PASSWORD | base64)
+RCLONE_ACCESS_KEY_ID=$(echo -n $RCLONE_ACCESS_KEY_ID | base64)
+RCLONE_SECRET_ACCESS_KEY=$(echo -n $RCLONE_SECRET_ACCESS_KEY | base64)
 
 oc process -f $f \
   -p BRANCH="$BRANCH" \
   -p HOST="$HOST" \
+  -p DB_NAME="$DB_NAME" \
   -p DB_USER="$DB_USER" \
   -p DB_PASSWORD="$DB_PASSWORD" \
   -p OBJECT_STORE="$OBJECT_STORE" \
