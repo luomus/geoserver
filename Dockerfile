@@ -7,9 +7,18 @@ COPY rclone.conf /opt/.config/rclone/rclone.conf
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
+      gpg \
       rclone \
       rsync \
-      postgresql-client \
+ && apt-get autoremove --purge -y \
+ && apt-get autoclean -y \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN wget --quiet -O - https://www.PostgreSQL.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg \
+ && echo "deb http://apt.postgresql.org/pub/repos/apt jammy-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends \
+      postgresql-client-16 \
  && apt-get autoremove --purge -y \
  && apt-get autoclean -y \
  && rm -rf /var/lib/apt/lists/*
