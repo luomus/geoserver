@@ -16,7 +16,7 @@ rm /opt/backup-$TIMESTAMP-$BRANCH.tar.gz
 
 echo "Create DB backup [$TIMESTAMP]"
 
-pg_dump -v -c postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB > /tmp/backup-$TIMESTAMP-$BRANCH.sql
+PGPASSWORD=$POSTGRES_PASSWORD pg_dump -v -c postgresql://$POSTGRES_USER@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB > /tmp/backup-$TIMESTAMP-$BRANCH.sql
 
 gzip /tmp/backup-$TIMESTAMP-$BRANCH.sql
 
