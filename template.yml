@@ -41,11 +41,13 @@ parameters:
   - name: DB_PORT
     required: true
     value: "5432"
-  - name: HOST
+  - name: DB_USER
     required: true
+    value: postgres
   - name: DB_NAME
     required: true
-  - name: DB_USER
+    value: gis
+  - name: HOST
     required: true
   - name: DB_PASSWORD
     required: true
