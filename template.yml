@@ -154,6 +154,8 @@ objects:
       metadata:
         labels:
           app: ${APP}
+          branch: ${BRANCH}
+          port: ${APP_PORT}
       spec:
         containers:
         - image: ${APP}-${BRANCH}:latest
@@ -252,6 +254,8 @@ objects:
       metadata:
         labels:
           app: ${APP}
+          branch: ${BRANCH}
+          port: ${DB_PORT}
       spec:
         containers:
         # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
@@ -339,6 +343,8 @@ objects:
       targetPort: ${{APP_PORT}}
     selector:
       app: ${APP}
+      branch: ${BRANCH}
+      port: ${APP_PORT}
 - kind: Service
   apiVersion: v1
   metadata:
@@ -352,6 +358,8 @@ objects:
       targetPort: ${{DB_PORT}}
     selector:
       app: ${APP}
+      branch: ${BRANCH}
+      port: ${DB_PORT}
 - kind: Route
   apiVersion: v1
   metadata:
