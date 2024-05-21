@@ -231,8 +231,8 @@ objects:
                 key: rclone_secret_access_key
           resources:
             limits:
-              cpu: "1500m"
-              memory: "6Gi"
+              cpu: "1000m"
+              memory: "5Gi"
         volumes:
         - name: ${APP}-${BRANCH}
           persistentVolumeClaim:
