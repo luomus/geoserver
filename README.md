@@ -152,5 +152,5 @@ To backup data run backup script from within the running geoserver pod.
 
 ```sh
 oc get pods
-oc exec ~POD_NAME~
+oc exec ~POD_NAME~ -- backup.sh
 ```
