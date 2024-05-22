@@ -44,12 +44,9 @@ parameters:
   - name: DB_USER
     required: true
     value: postgres
-  - name: DB_NAME
-    required: true
-    value: gis
-  - name: HOST
-    required: true
   - name: DB_PASSWORD
+    required: true
+  - name: HOST
     required: true
   - name: OBJECT_STORE
     required: true
@@ -125,7 +122,7 @@ objects:
   data:
     branch: ${BRANCH}
     object_store: ${OBJECT_STORE}
-    db_name: ${DB_NAME}
+    db_name: ${APP}
     db_port: ${DB_PORT}
 - kind: Secret
   apiVersion: v1
@@ -170,7 +167,7 @@ objects:
               path: ${APP_HEALTHCHECK}
               port: ${{APP_PORT}}
             failureThreshold: 5
-            periodSeconds: 100
+            periodSeconds: 30
           livenessProbe:
             httpGet:
               path: ${APP_HEALTHCHECK}
