@@ -87,12 +87,6 @@ Open a terminal interface to the remote pod
 oc exec ~POD_NAME~ -it -- bash
 ```
 
-Create the database user
-
-```sh
-psql -U postgres -c "CREATE USER geoserver WITH PASSWORD '???????';" # use an appropriate password
-```
-
 Restore database from backup
 
 ```sh
