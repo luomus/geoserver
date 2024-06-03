@@ -370,3 +370,5 @@ objects:
     to:
       kind: Service
       name: ${APP}-${BRANCH}
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
