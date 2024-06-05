@@ -364,7 +364,7 @@ objects:
     labels:
       app: ${APP}
   spec:
-    host:
+    host: ${HOST}
     port:
       targetPort: ${{APP_PORT}}
     to:
