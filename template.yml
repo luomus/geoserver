@@ -173,7 +173,7 @@ objects:
               path: ${APP_HEALTHCHECK}
               port: ${{APP_PORT}}
             failureThreshold: 5
-            periodSeconds: 30
+            periodSeconds: 40
           readinessProbe:
             httpGet:
               path: ${APP_HEALTHCHECK}
@@ -322,6 +322,7 @@ objects:
                 key: rclone_secret_access_key
           resources:
             limits:
+              cpu: "500m"
               memory: "2Gi"
         volumes:
         - name: ${DB}-${BRANCH}
