@@ -54,10 +54,6 @@ parameters:
     required: true
   - name: RCLONE_SECRET_ACCESS_KEY
     required: true
-  - name: GITHUB_SECRET
-    required: true
-    generate: expression
-    from: "[a-zA-Z0-9]{20}"
 metadata:
   name: ${APP}
 objects:
@@ -83,38 +79,6 @@ objects:
     resources:
       requests:
         storage: ${STORAGE}
-- kind: ImageStream
-  apiVersion: v1
-  metadata:
-    name: ${APP}-${BRANCH}
-    labels:
-      app: ${APP}
-  spec:
-    lookupPolicy:
-      local: true
-- kind: BuildConfig
-  apiVersion: v1
-  metadata:
-    name: ${APP}-${BRANCH}
-    labels:
-      app: ${APP}
-  spec:
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ${APP}-${BRANCH}:latest
-    source:
-      type: Git
-      git:
-        uri: https://github.com/luomus/${APP}.git
-        ref: ${BRANCH}
-    strategy:
-      type: Docker
-    triggers:
-    - type: ConfigChange
-    - type: GitHub
-      github:
-        secret: ${GITHUB_SECRET}
 - kind: ConfigMap
   apiVersion: v1
   metadata:
@@ -155,7 +119,7 @@ objects:
           port: ${APP_PORT}
       spec:
         containers:
-        - image: ${APP}-${BRANCH}:latest
+        - image: ghcr.io/luomus/${APP}:${BRANCH}
           name: ${APP}-${BRANCH}
           volumeMounts:
           - mountPath: /opt/geoserver_data
@@ -255,8 +219,7 @@ objects:
           port: ${DB_PORT}
       spec:
         containers:
-        # docker manifest inspect ghcr.io/luomus/postgis-image:main -v | jq '.Descriptor.digest'
-        - image: ghcr.io/luomus/postgis-image:main@sha256:78d54387d8a426856adbcd0ec2542cfdab2ab10def7e1373bbb0c95f410aeebd
+        - image: ghcr.io/luomus/postgis-image:main
           name: ${DB}-${BRANCH}
           volumeMounts:
           - mountPath: ${DB_PATH}

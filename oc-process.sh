@@ -34,41 +34,33 @@ elif [ $i = "volume-db" ]; then
 
   ITEM=".items[1]"
 
-elif [ $i = "image" ]; then
+elif [ $i = "config" ]; then
 
   ITEM=".items[2]"
 
-elif [ $i = "build" ]; then
-
-  ITEM=".items[3]"  
-
-elif [ $i = "config" ]; then
-
-  ITEM=".items[4]"
-
 elif [ $i = "secrets" ]; then
 
-  ITEM=".items[5]"
+  ITEM=".items[3]"
 
 elif [ $i = "deploy-app" ]; then
 
-  ITEM=".items[6]"
+  ITEM=".items[4]"
 
 elif [ $i = "deploy-db" ]; then
 
-  ITEM=".items[7]"
+  ITEM=".items[5]"
 
 elif [ $i = "service-app" ]; then
 
-  ITEM=".items[8]"
+  ITEM=".items[6]"
 
 elif [ $i = "service-db" ]; then
 
-  ITEM=".items[9]"
+  ITEM=".items[7]"
 
 elif [ $i = "route" ]; then
 
-  ITEM=".items[10]"
+  ITEM=".items[8]"
 
 else
 
