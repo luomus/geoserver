@@ -120,6 +120,7 @@ objects:
       spec:
         containers:
         - image: ghcr.io/luomus/${APP}:${BRANCH}
+          imagePullPolicy: Always
           name: ${APP}-${BRANCH}
           volumeMounts:
           - mountPath: /opt/geoserver_data
@@ -220,6 +221,7 @@ objects:
       spec:
         containers:
         - image: ghcr.io/luomus/postgis-image:main
+          imagePullPolicy: Always
           name: ${DB}-${BRANCH}
           volumeMounts:
           - mountPath: ${DB_PATH}
