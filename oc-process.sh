@@ -1,6 +1,8 @@
 #!/bin/bash
 
 i="all"
+f="template.yml"
+e=".env"
 
 while getopts ":f:e:i::" flag; do
   case $flag in
@@ -78,7 +80,7 @@ DB_PASSWORD=$(echo -n $DB_PASSWORD | base64)
 RCLONE_ACCESS_KEY_ID=$(echo -n $RCLONE_ACCESS_KEY_ID | base64)
 RCLONE_SECRET_ACCESS_KEY=$(echo -n $RCLONE_SECRET_ACCESS_KEY | base64)
 
-oc project geoserver
+echo "# ${oc project geoserver}"
 
 oc process -f $f \
   -p BRANCH="$BRANCH" \
