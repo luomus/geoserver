@@ -62,9 +62,14 @@ elif [ $i = "route" ]; then
 
   ITEM=".items[8]"
 
-else
+elif [ $i = "all" ]; then
 
   ITEM=""
+
+else
+
+  echo "Object not found"
+  exit 1
 
 fi
 
@@ -72,6 +77,8 @@ DB_USER=$(echo -n $DB_USER | base64)
 DB_PASSWORD=$(echo -n $DB_PASSWORD | base64)
 RCLONE_ACCESS_KEY_ID=$(echo -n $RCLONE_ACCESS_KEY_ID | base64)
 RCLONE_SECRET_ACCESS_KEY=$(echo -n $RCLONE_SECRET_ACCESS_KEY | base64)
+
+oc project geoserver
 
 oc process -f $f \
   -p BRANCH="$BRANCH" \
