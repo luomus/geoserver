@@ -43,7 +43,6 @@ parameters:
     value: "5432"
   - name: DB_USER
     required: true
-    value: postgres
   - name: DB_PASSWORD
     required: true
   - name: HOST
