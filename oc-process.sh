@@ -80,12 +80,13 @@ DB_PASSWORD=$(echo -n $DB_PASSWORD | base64)
 RCLONE_ACCESS_KEY_ID=$(echo -n $RCLONE_ACCESS_KEY_ID | base64)
 RCLONE_SECRET_ACCESS_KEY=$(echo -n $RCLONE_SECRET_ACCESS_KEY | base64)
 
-echo "# ${oc project geoserver}"
+echo "# $(oc project geoserver)"
 
 oc process -f $f \
   -p BRANCH="$BRANCH" \
   -p HOST="$HOST" \
   -p DB_PASSWORD="$DB_PASSWORD" \
+  -p DB_USER="$DB_USER" \
   -p OBJECT_STORE="$OBJECT_STORE" \
   -p RCLONE_ACCESS_KEY_ID="$RCLONE_ACCESS_KEY_ID" \
   -p RCLONE_SECRET_ACCESS_KEY="$RCLONE_SECRET_ACCESS_KEY" \
