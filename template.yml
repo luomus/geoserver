@@ -43,7 +43,14 @@ parameters:
     value: "5432"
   - name: DB_USER
     required: true
+    value: postgres
   - name: DB_PASSWORD
+    required: true
+  - name: EXTRA_JAVA_OPTS
+    required: true
+  - name: MEMORY_APP
+    required: true
+  - name: MEMORY_DB
     required: true
   - name: HOST
     required: true
@@ -93,7 +100,6 @@ objects:
     name: ${APP}-${BRANCH}
   type: Opaque
   data:
-    db_user: ${DB_USER}
     db_password: ${DB_PASSWORD}
     rclone_access_key_id: ${RCLONE_ACCESS_KEY_ID}
     rclone_secret_access_key: ${RCLONE_SECRET_ACCESS_KEY}
@@ -148,6 +154,8 @@ objects:
             value: https://${HOST}/${APP}
           - name: GEOSERVER_CSRF_WHITELIST
             value: ${HOST}
+          - name: EXTRA_JAVA_OPTS
+            value: ${EXTRA_JAVA_OPTS}
           - name: BRANCH
             valueFrom:
               configMapKeyRef:
@@ -171,10 +179,7 @@ objects:
                 name: ${APP}-${BRANCH}
                 key: db_port
           - name: POSTGRES_USER
-            valueFrom:
-              secretKeyRef:
-                name: ${APP}-${BRANCH}
-                key: db_user
+            value: ${DB_USER}
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
@@ -193,7 +198,7 @@ objects:
           resources:
             limits:
               cpu: "1000m"
-              memory: "5Gi"
+              memory: ${MEMORY_APP}
         volumes:
         - name: ${APP}-${BRANCH}
           persistentVolumeClaim:
@@ -265,10 +270,7 @@ objects:
                 name: ${APP}-${BRANCH}
                 key: db_port
           - name: POSTGRES_USER
-            valueFrom:
-              secretKeyRef:
-                name: ${APP}-${BRANCH}
-                key: db_user
+            value: ${DB_USER}
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
@@ -287,7 +289,7 @@ objects:
           resources:
             limits:
               cpu: "500m"
-              memory: "2Gi"
+              memory: ${MEMORY_DB}
         volumes:
         - name: ${DB}-${BRANCH}
           persistentVolumeClaim:
