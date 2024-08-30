@@ -1,5 +1,5 @@
-# docker manifest inspect docker.osgeo.org/geoserver:2.25.2 -v | jq '.Descriptor.digest'
-FROM docker.osgeo.org/geoserver:2.25.2@sha256:08a08222093d5575282a02f4182ce2519fe6fad9ad7b0b4c2a293ef43793d5bc
+# docker manifest inspect docker.osgeo.org/geoserver:2.25.3 -v | jq '.Descriptor.digest'
+FROM docker.osgeo.org/geoserver:2.25.3@sha256:a28b2a23d54342b5936a0a64d26789e96813f1823f4fe161d305364273514a83
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY backup.sh /usr/local/bin/backup.sh
