@@ -5,7 +5,8 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY backup.sh /usr/local/bin/backup.sh
 COPY rclone.conf /opt/.config/rclone/rclone.conf
 
-RUN apt-get update \
+RUN chmod a+rwx -R /tmp \
+ && apt-get update \
  && apt-get install -y --no-install-recommends \
       gpg \
       rclone \
